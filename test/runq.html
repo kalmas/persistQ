@@ -14,24 +14,27 @@
     }
     
     function doAThing(q){
-    	if(new Date().getTime() % 3 === 0){
-    		console.log("failing!");
-    		setTimeout(processQueue, 1000, q);
-    	} else {    	
-    		console.log("Hi, doing some stuff with " + q.poll() + ". It'll take a second.");
-    		setTimeout(processQueue, 1000, q);    	
-    	}   	
+		console.log("Hi, doing some stuff with " + q.peek() + ". It'll take a second.");
+		setTimeout(thingIsDone, 1000, q);
     }
+	
+	function thingIsDone(q){
+		if(new Date().getTime() % 3 === 0){
+			console.log("Thing " + q.peek() + " failed :(");
+		} else {
+			console.log("We're finished with " + q.poll());
+		}
+		processQueue(q);
+	}
     
     $(document).ready(function(){
     	var q = new Queue("thingsNstuff");
-    	// Put so many things in
+    	console.log("Queuing so many things...");
     	for(var i=0; i<100; i++){
     		q.offer(i);
     	}
     	
     	processQueue(q);
-    	
     });
     
     	
@@ -39,5 +42,6 @@
     
   </head>
   <body>
+  Look at the console.  
   </body>
 </html>
