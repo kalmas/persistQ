@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Run That Queue</title>
+    <script src="../queue.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+    function processQueue(q){
+    	if(q.peek() !== null){
+    		doAThing(q);
+    	} else {
+    		console.log("Queue is empty. Time for a 3k ms nap.");
+    		setTimeout(processQueue, 3000, q);   
+    	}
+    }
+    
+    function doAThing(q){
+    	console.log("Hi, doing some stuff with " + q.poll() + ". It'll take a second.");
+    	setTimeout(processQueue, 1000, q);    	
+    }
+    
+    $(document).ready(function(){
+    	var q = new Queue("thingsNstuff");
+    	// Put so many things in
+    	for(var i=0; i<100; i++){
+    		q.offer(i);
+    	}
+    	
+    	processQueue(q);
+    	
+    });
+    
+    	
+    </script>
+    
+  </head>
+  <body>
+  </body>
+</html>
