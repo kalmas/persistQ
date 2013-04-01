@@ -9,7 +9,7 @@
 		    	if(queue.peek() !== null){
 		    		sendEvent(queue);
 		    	} else {
-		    		console.log("queue is empty, sleep");
+		    		// console.log("queue is empty, sleep");
 		    		setTimeout(processEventQueue, 1000, queue);   
 		    	}
 		    };
@@ -26,16 +26,13 @@
 		    	    }
 		    	};
 		    	var event = queue.peek();
-//		    	xhr.open("GET", "/ajax/eventLogging.ajax.php?eventid=" + event.eventid
-//		    			+ "&someid=" + event.someid
-//		    			+ "&typecode" + event.typecode
-//		    			+ "&pagename" + event.pagename
-//		    			+ "&source" + event.source    			
-//		    			, "true");
-//		    	xhr.send();   
-		    	console.log (event);
-		    	queue.poll();
-		    	setTimeout(processEventQueue, 1000, queue);
+		    	xhr.open("GET", "/ajax/eventLogging.ajax.php?eventid=" + event.eventid
+		    			+ "&someid=" + event.someid
+		    			+ "&typecode" + event.typecode
+		    			+ "&pagename" + event.pagename
+		    			+ "&source" + event.source    			
+		    			, "true");
+		    	xhr.send();
 		    };
 		    
 		    processEventQueue(eventLogQueue);

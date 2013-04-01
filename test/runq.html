@@ -29,7 +29,7 @@
 	}
     
     $(document).ready(function(){
-    	var q = new Queue("thingsNstuff");
+    	var q = new Queue("thingsNstuff", window.localStorage);
     	console.log("Queuing so many things...");
     	for(var i=0; i<100; i++){
     		q.offer(i);

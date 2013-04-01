@@ -51,5 +51,5 @@ this.eventTests = {
     	test.ok(obj.source === 'ForRent.com', 'source is ok');
     	
     	test.done();
-    },
-}
+    }
+};
