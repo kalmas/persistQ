@@ -1,6 +1,41 @@
-(function () {	
+(function(){	
 	var eventLogQueue = new Queue("eventQ");	
+
+    var processEventQueue = function(queue){
+    	if(queue.peek() !== null){
+    		sendEvent(queue);
+    	} else {
+    		console.log("queue is empty, sleep");
+    		setTimeout(processEventQueue, 1000, queue);   
+    	}
+    };
 	
+    var sendEvent = function(queue){
+    	var xhr = new XMLHttpRequest();
+    	xhr.onreadystatechange = function(){
+    		if(xhr.readyState == 4){
+    			if(xhr.status == 200){
+    				console.log("request succeeded, dequeue this event");
+    				queue.poll();
+    			}
+    			processEventQueue(queue);
+    	    }
+    	};
+    	var event = queue.peek();
+//    	xhr.open("GET", "endpoint.php?eventid=" + event.eventid
+//    			+ "&someid=" + event.someid
+//    			+ "&typecode" + event.typecode
+//    			+ "&pagename" + event.pagename
+//    			+ "&source" + event.source    			
+//    			, "true");
+//    	xhr.send();   
+    	console.log (event);
+    	queue.poll();
+    	setTimeout(processEventQueue, 1000, queue);
+    };
+    
+    processEventQueue(eventLogQueue);
+
 	/**
 	 * Global Event Log Functions
 	 */
@@ -12,10 +47,8 @@
 		event.pagename = pagename;
 		event.source = source;
 		
-		eventLogQueue.offer(event);
-		
-	    //$.get("/ajax/eventLogging.ajax.php", { eventid:eventid, someid: someid, typecode: typecode, pagename: pagename, sourcecode: source}); 
-	}
+		eventLogQueue.offer(event);	
+	};
 
 
 })();

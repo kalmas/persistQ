@@ -1,20 +1,24 @@
 
 function Queue(name){
-	
 	var queueName = "_queue-" + name;
-	if(localStorage.getItem(queueName) === null){
-		// Initialize Queue as an empty array
-		localStorage.setItem(queueName, JSON.stringify([]));
-	}
+	
+	var load = function(){
+		var queue = JSON.parse(localStorage.getItem(queueName));
+		if(Object.prototype.toString.call(queue) !== '[object Array]'){
+			// Initalize as an empty array
+			queue = [];
+		}
+		return queue;
+	}; 
 	
 	this.offer = function(item){
-		var queue = JSON.parse(localStorage.getItem(queueName));
+		var queue = load();
 		queue.push(item);
 		localStorage.setItem(queueName, JSON.stringify(queue));
 	}
 	
 	this.poll = function(){
-		var queue = JSON.parse(localStorage.getItem(queueName));
+		var queue = load();
 		if(queue.length === 0) return null;
 		var value = queue.shift();
 		localStorage.setItem(queueName, JSON.stringify(queue));
@@ -22,7 +26,7 @@ function Queue(name){
 	}
 	
 	this.peek = function(){
-		var queue = JSON.parse(localStorage.getItem(queueName));
+		var queue = load();
 		if(queue.length === 0) return null;
 	    return queue[0];
 	}
