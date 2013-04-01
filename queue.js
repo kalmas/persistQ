@@ -1,5 +1,4 @@
-
-function Queue(name){
+function Queue(name, localStorage){
 	var queueName = "_queue-" + name;
 	
 	var load = function(){
@@ -29,6 +28,10 @@ function Queue(name){
 		var queue = load();
 		if(queue.length === 0) return null;
 	    return queue[0];
+	}
+	
+	this.removeAll = function(){
+		localStorage.removeItem(queueName);		
 	}
 
 }

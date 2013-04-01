@@ -2,16 +2,27 @@
   <head>
     <title>Example Test Suite</title>
     <link rel="stylesheet" href="../deps/async/deps/nodeunit.css" type="text/css" />
-    <script src="../queue.js"></script>
+    <script src="../deps/yepnope.js"></script>
+    <script src="../event.js"></script>
     <script src="../deps/async/deps/nodeunit.js"></script>
     <script src="test.js"></script>
   </head>
   <body>
     <h1 id="nodeunit-header">Example Test Suite</h1>
     <script>
-      nodeunit.run({
-        'Queue Tests': queueTests
-      });
+    (function runTests(){
+    	if(typeof Queue === "undefined"){
+    		console.log('still waiting on some resources');
+    		setTimeout(runTests, 100);
+    		return;
+    	}
+      	nodeunit.run({
+        	'Queue Tests ': queueTests,
+        	'Event Tests ' : eventTests
+      	});
+    })(); 
+    
+
     </script>
   </body>
 </html>
