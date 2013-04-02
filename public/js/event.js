@@ -1,7 +1,7 @@
 (function(window, doc, undef){
 	window.yepnope([{
 		test : typeof Queue === "undefined",
-		yep: ["../queue.js"],
+		yep: ["/public/js/queue.js"],
 		callback : function(){
 			var eventLogQueue = new Queue("event", window.localStorage);	
 		
@@ -19,7 +19,7 @@
 		    	xhr.onreadystatechange = function(){
 		    		if(xhr.readyState == 4){
 		    			if(xhr.status == 200){
-		    				console.log("request succeeded, dequeue this event");
+		    				// console.log("request succeeded, dequeue this event");
 		    				queue.poll();
 		    			}
 		    			processEventQueue(queue);
