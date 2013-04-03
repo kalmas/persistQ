@@ -1,4 +1,4 @@
-(function(window, doc, undef){
+(function(window){
 	window.yepnope([{
 		test : typeof Queue === "undefined",
 		yep: ["/public/js/queue.js"],
@@ -9,7 +9,7 @@
 		    	if(queue.peek() !== null){
 		    		sendEvent(queue);
 		    	} else {
-		    		// console.log("queue is empty, sleep");
+		    		window.console.log("queue is empty, sleep");
 		    		setTimeout(processEventQueue, 1000, queue);   
 		    	}
 		    };
@@ -19,7 +19,7 @@
 		    	xhr.onreadystatechange = function(){
 		    		if(xhr.readyState == 4){
 		    			if(xhr.status == 200){
-		    				// console.log("request succeeded, dequeue this event");
+		    				window.console.log("request succeeded, dequeue this event");
 		    				queue.poll();
 		    			}
 		    			processEventQueue(queue);
@@ -28,10 +28,10 @@
 		    	var event = queue.peek();
 		    	xhr.open("GET", "/ajax/eventLogging.ajax.php?eventid=" + event.eventid
 		    			+ "&someid=" + event.someid
-		    			+ "&typecode" + event.typecode
-		    			+ "&pagename" + event.pagename
-		    			+ "&source" + event.source    			
-		    			, "true");
+		    			+ "&typecode=" + event.typecode
+		    			+ "&pagename=" + event.pagename
+		    			+ "&source=" + event.source    			
+		    			, true);
 		    	xhr.send();
 		    };
 		    
@@ -47,9 +47,9 @@
 				event.typecode = typecode;
 				event.pagename = pagename;
 				event.source = source;
-				
+				window.console.log("Queueing:" + window.JSON.stringify(event));
 				eventLogQueue.offer(event);	
 			};
 		}
 	}]);
-})(this, document);
+})(this);
