@@ -1,8 +1,13 @@
 (function(window){
-	window.yepnope([{
-		test : typeof Queue === "undefined",
+    window.yepnope([{
+    	// If IE, load setTimeout Polyfill
+    	test : document.all,
+    	yep : ["/public/js/polyfill-ie-settimeout.js"]
+    }, {
+    	// Load Queue
+    	test : typeof Queue === "undefined",
 		yep: ["/public/js/queue.js"],
-		callback : function(){
+		complete : function(){
 			var eventLogQueue = new Queue("event", window);	
 		
 		    var processEventQueue = function(queue){
@@ -32,14 +37,16 @@
 			    			+ "&someid=" + event.someid
 			    			+ "&typecode=" + event.typecode
 			    			+ "&pagename=" + event.pagename
-			    			+ "&source=" + event.source    			
+			    			+ "&source=" + event.source
+			    			+ "&rand=" + window.Math.random()
 			    			, true);
 		    	} else {
 		    		// log timed event
 			    	xhr.open("GET", "/ajax/theaterLogging.ajax.php?siteid=" + event.siteid
 			    			+ "&code=" + event.code
 			    			+ "&time=" + event.time
-			    			+ "&length=" + event.length  			
+			    			+ "&length=" + event.length
+			    			+ "&rand=" + window.Math.random()
 			    			, true);
 		    	}
 		    	xhr.send();
@@ -71,5 +78,5 @@
 				eventLogQueue.offer(event);	
 			};
 		}
-	}]);
+    }]);
 })(this);

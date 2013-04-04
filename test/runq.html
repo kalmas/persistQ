@@ -1,8 +1,7 @@
 <html>
   <head>
     <title>Run That Queue</title>
-    <script src="/public/js/queue.js"></script>
-    <script src="/public/deps/jquery.js"></script>
+    <script src="/public/deps/yepnope.js"></script>
     <script>
     function processQueue(q){
     	if(q.peek() !== null){
@@ -28,17 +27,24 @@
 		processQueue(q);
 	}
     
-    $(document).ready(function(){
-    	var q = new Queue("thingsNstuff", window);
-    	console.log("Queuing so many things...");
-    	for(var i=0; i<100; i++){
-    		q.offer(i);
-    	}
-    	
-    	processQueue(q);
-    });
-    
-    	
+	window.yepnope([{
+    	// If IE, load setTimeout Polyfill
+    	test : document.all,
+    	yep : ["/public/js/polyfill-ie-settimeout.js"]
+    }, {
+    	// Load Queue
+    	test : typeof Queue === "undefined",
+		yep: ["/public/js/queue.js"],
+		complete : function(){
+	    	var q = new Queue("thingsNstuff", window);
+	    	console.log("Queuing so many things...");
+	    	for(var i=0; i<100; i++){
+	    		q.offer(i);
+	    	}
+	    	
+	    	processQueue(q);
+		}
+    }]);
     </script>
     
   </head>

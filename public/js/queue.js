@@ -1,5 +1,5 @@
 function Queue(name, window){
-	var queueName = "_persistQueue" + name;
+	var queueName = "_persistQueue-" + name;
 	var storage = window.localStorage;
 	
 	var load = function(){
