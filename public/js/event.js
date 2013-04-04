@@ -3,7 +3,7 @@
 		test : typeof Queue === "undefined",
 		yep: ["/public/js/queue.js"],
 		callback : function(){
-			var eventLogQueue = new Queue("event", window.localStorage);	
+			var eventLogQueue = new Queue("event", window);	
 		
 		    var processEventQueue = function(queue){
 		    	if(queue.peek() !== null){

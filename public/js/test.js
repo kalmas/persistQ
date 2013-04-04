@@ -5,13 +5,13 @@ this.queueTests = {
     },
     
     'test create' : function(test){
-    	var q = new Queue('test', window.localStorage);
+    	var q = new Queue('test', window);
     	test.ok(typeof q === 'object', 'made an object');
     	test.done();
     },
     
     'test peek offer and poll' : function(test){
-    	var q = new Queue('test', window.localStorage);
+    	var q = new Queue('test', window);
     	q.removeAll();
     	test.ok(q.peek() === null, 'empty queue is empty');
     	
@@ -37,7 +37,7 @@ this.queueTests = {
 this.eventTests = {
     'test log event adds that event to queue': function (test) {
     	// Grab a copy of the queue that event code will use
-    	var q = new Queue('event', window.localStorage);
+    	var q = new Queue('event', window);
     	q.removeAll();
     	window.common_log_event('FloorPlan_Detail_Search_List_exact', 1000010783, 'site', 'Search', 'ForRent.com');
     	
