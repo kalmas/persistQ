@@ -1,8 +1,8 @@
 <html>
   <head>
     <title>Run That Queue</title>
-    <script src="../queue.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/public/js/queue.js"></script>
+    <script src="/public/deps/jquery.js"></script>
     <script>
     function processQueue(q){
     	if(q.peek() !== null){
@@ -24,11 +24,12 @@
 		} else {
 			console.log("We're finished with " + q.poll());
 		}
+		console.log("");
 		processQueue(q);
 	}
     
     $(document).ready(function(){
-    	var q = new Queue("thingsNstuff");
+    	var q = new Queue("thingsNstuff", window.localStorage);
     	console.log("Queuing so many things...");
     	for(var i=0; i<100; i++){
     		q.offer(i);
