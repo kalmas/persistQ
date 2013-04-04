@@ -1,21 +1,31 @@
 var express = require('express'), app = express();
-var resque = require('coffee-resque').connect({
-	host: "localhost",
-	port: "6379"
+var redis = require("redis"), client = redis.createClient();
+
+client.on("error", function (err) {
+    console.log("error event - " + client.host + ":" + client.port + " - " + err);
 });
 
 // Log event to text file
 app.get('/log-event', function(req, res){
-	var event = req.query;
-	var url = req.query.url;
-	delete event.url;
+	var args = {};
+	args.event = req.query;
+	args.url = req.query.url;
+	delete args.event.url;
+	var resqueObj = {
+			"class" : "QueueHandler\\EventLog",
+			"args" : [{
+				"eventargs" : args.event,
+				"url" : args.url
+			}]
+	};
 	
-	var args = [{
-		"eventargs" : event,
-		"url" : url
-	}];
-	resque.enqueue("event", 'QueueHandler\EventLog', args);
-	res.send(200, JSON.stringify(args));
+	client.rpush("resque:queue:event", JSON.stringify(resqueObj), function(err, replies){
+		if(err){
+			res.send(500, err);
+		}else{
+			res.send(200);
+		}
+	});
 
 });
 
