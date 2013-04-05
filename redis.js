@@ -14,7 +14,6 @@ app.get('/log-event', function(req, res){
 			|| typeof req.query.sourcecode !== 'string'
 			|| typeof req.query.pagename !== 'string'
 			|| typeof req.query.url !== 'string'){
-		con
 		res.send(400, "Expected Params: eventid, typecode, someid, sourcecode, pagename, url");		
 		return;
 	}
