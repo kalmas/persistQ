@@ -1,9 +1,10 @@
-function Queue(name, localStorage){
-	var queueName = "_queue-" + name;
+function Queue(name, window){
+	var queueName = "_persistQueue-" + name;
+	var storage = window.localStorage;
 	
 	var load = function(){
-		var queue = JSON.parse(localStorage.getItem(queueName));
-		if(Object.prototype.toString.call(queue) !== '[object Array]'){
+		var queue = window.JSON.parse(storage.getItem(queueName));
+		if(window.Object.prototype.toString.call(queue) !== '[object Array]'){
 			// Initialize as an empty array
 			queue = [];
 		}
@@ -13,25 +14,25 @@ function Queue(name, localStorage){
 	this.offer = function(item){
 		var queue = load();
 		queue.push(item);
-		localStorage.setItem(queueName, JSON.stringify(queue));
+		storage.setItem(queueName, window.JSON.stringify(queue));
 	};
 	
 	this.poll = function(){
 		var queue = load();
-		if(queue.length === 0) return null;
+		if(queue.length === 0){ return null; }
 		var value = queue.shift();
-		localStorage.setItem(queueName, JSON.stringify(queue));
+		storage.setItem(queueName, window.JSON.stringify(queue));
 		return value;
 	};
 	
 	this.peek = function(){
 		var queue = load();
-		if(queue.length === 0) return null;
+		if(queue.length === 0){ return null; }
 	    return queue[0];
 	};
 	
 	this.removeAll = function(){
-		localStorage.removeItem(queueName);		
+		storage.removeItem(queueName);		
 	};
 
 }
