@@ -1,5 +1,5 @@
 var express = require('express'), app = express();
-var redis = require("redis"), client = redis.createClient();
+var redis = require("redis"), client = redis.createClient(6379, 'redis.forrent.com');
 
 client.on("error", function (err) {
     console.log("error event - " + client.host + ":" + client.port + " - " + err);
