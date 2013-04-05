@@ -8,7 +8,10 @@
     	test : typeof Queue === "undefined",
 		yep: ["/public/js/queue.js"],
 		complete : function(){
-			var eventLogQueue = new Queue("event", window);	
+			var eventLogQueue = new Queue("event", window);
+			
+			// Limit how many times we will retry a send
+			var maxSendAttempts = 3, sendAttempts = 0;
 		
 		    var processEventQueue = function(queue){
 		    	if(queue.peek() !== null){
@@ -26,6 +29,15 @@
 		    			if(xhr.status == 200){
 		    				// window.console.log("request succeeded, dequeue this event");
 		    				queue.poll();
+		    				sendAttempts = 0;
+		    			} else {
+		    				if(sendAttempts < maxSendAttempts){
+		    					sendAttempts = sendAttempts + 1;
+		    				} else {
+		    					// window.console.log("request failed too many times, dequeue this event");
+		    					queue.poll();
+		    					sendAttempts = 0;
+		    				}
 		    			}
 		    			processEventQueue(queue);
 		    	    }
@@ -38,6 +50,7 @@
 			    			+ "&typecode=" + event.typecode
 			    			+ "&pagename=" + event.pagename
 			    			+ "&source=" + event.source
+			    			+ "&timestamp=" + event.timestamp
 			    			+ "&rand=" + window.Math.random()
 			    			, true);
 		    	} else {
@@ -46,6 +59,7 @@
 			    			+ "&code=" + event.code
 			    			+ "&time=" + event.time
 			    			+ "&length=" + event.length
+			    			+ "&timestamp=" + event.timestamp
 			    			+ "&rand=" + window.Math.random()
 			    			, true);
 		    	}
@@ -64,6 +78,7 @@
 				event.typecode = typecode;
 				event.pagename = pagename;
 				event.source = source;
+				event.timestamp = window.Math.round(new window.Date().getTime() / 1000); // Unix Epoch Time 
 				// window.console.log("Queueing:" + window.JSON.stringify(event));
 				eventLogQueue.offer(event);	
 			};
@@ -74,6 +89,7 @@
 				event.code = code;
 				event.time = time;
 				event.length = length;
+				event.timestamp = window.Math.round(new window.Date().getTime() / 1000); // Unix Epoch Time
 				// window.console.log("Queueing:" + window.JSON.stringify(event));
 				eventLogQueue.offer(event);	
 			};
