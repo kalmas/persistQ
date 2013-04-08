@@ -60,7 +60,7 @@
 			    			+ "&typecode=" + event.typecode
 			    			+ "&pagename=" + event.pagename
 			    			+ "&source=" + event.source
-			    			+ "&timestamp=" + event.timestamp
+			    			// + "&timestamp=" + event.timestamp
 			    			+ "&jsguid=" + event.jsguid
 			    			+ "&rand=" + window.Math.random()
 			    			, true);
@@ -70,7 +70,7 @@
 			    			+ "&code=" + event.code
 			    			+ "&time=" + event.time
 			    			+ "&length=" + event.length
-			    			+ "&timestamp=" + event.timestamp
+			    			// + "&timestamp=" + event.timestamp
 			    			+ "&jsguid=" + event.jsguid
 			    			+ "&rand=" + window.Math.random()
 			    			, true);
@@ -90,7 +90,7 @@
 				event.typecode = typecode;
 				event.pagename = pagename;
 				event.source = source;
-				event.timestamp = window.Math.round(new window.Date().getTime() / 1000); // Unix Epoch Time
+				// event.timestamp = window.Math.round(new window.Date().getTime() / 1000); // Unix Epoch Time
 				event.jsguid = guid();
 				// window.console.log("Queueing:" + window.JSON.stringify(event));
 				eventLogQueue.offer(event);	
@@ -102,7 +102,7 @@
 				event.code = code;
 				event.time = time;
 				event.length = length;
-				event.timestamp = window.Math.round(new window.Date().getTime() / 1000); // Unix Epoch Time
+				// event.timestamp = window.Math.round(new window.Date().getTime() / 1000); // Unix Epoch Time
 				event.jsguid = guid();
 				// window.console.log("Queueing:" + window.JSON.stringify(event));
 				eventLogQueue.offer(event);	
