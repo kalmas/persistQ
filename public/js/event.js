@@ -21,6 +21,16 @@
 		    		window.setTimeout(processEventQueue, 1000, queue);   
 		    	}
 		    };
+		    
+		    /**
+		     * http://stackoverflow.com/a/2117523/1361980
+		     */
+		    var guid = function(){
+		    	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c){
+		    		var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+		    		return v.toString(16);
+		    	});
+		    };
 			
 		    var sendEvent = function(queue){
 		    	var xhr = new XMLHttpRequest();
@@ -51,6 +61,7 @@
 			    			+ "&pagename=" + event.pagename
 			    			+ "&source=" + event.source
 			    			+ "&timestamp=" + event.timestamp
+			    			+ "&jsguid=" + event.jsguid
 			    			+ "&rand=" + window.Math.random()
 			    			, true);
 		    	} else {
@@ -60,6 +71,7 @@
 			    			+ "&time=" + event.time
 			    			+ "&length=" + event.length
 			    			+ "&timestamp=" + event.timestamp
+			    			+ "&jsguid=" + event.jsguid
 			    			+ "&rand=" + window.Math.random()
 			    			, true);
 		    	}
@@ -78,7 +90,8 @@
 				event.typecode = typecode;
 				event.pagename = pagename;
 				event.source = source;
-				event.timestamp = window.Math.round(new window.Date().getTime() / 1000); // Unix Epoch Time 
+				event.timestamp = window.Math.round(new window.Date().getTime() / 1000); // Unix Epoch Time
+				event.jsguid = guid();
 				// window.console.log("Queueing:" + window.JSON.stringify(event));
 				eventLogQueue.offer(event);	
 			};
@@ -90,6 +103,7 @@
 				event.time = time;
 				event.length = length;
 				event.timestamp = window.Math.round(new window.Date().getTime() / 1000); // Unix Epoch Time
+				event.jsguid = guid();
 				// window.console.log("Queueing:" + window.JSON.stringify(event));
 				eventLogQueue.offer(event);	
 			};

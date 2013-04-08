@@ -50,6 +50,7 @@ this.eventTests = {
     	test.ok(obj.pagename === 'Search', 'pagename is ok');
     	test.ok(obj.source === 'ForRent.com', 'source is ok');
     	test.ok((obj.timestamp - Math.round(new window.Date().getTime() / 1000)) < 10, 'timestamp is current');
+    	test.ok(typeof obj.jsguid === "string", 'guid is ok');
 
     	test.done();
     },
@@ -67,6 +68,7 @@ this.eventTests = {
     	test.ok(obj.time === 14, 'time is ok');
     	test.ok(obj.length === 90, 'length is ok');
     	test.ok((obj.timestamp - Math.round(new window.Date().getTime() / 1000)) < 10, 'timestamp is current');
+    	test.ok(typeof obj.jsguid === "string", 'guid is ok');
 
     	test.done();
     }
