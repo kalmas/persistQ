@@ -1,5 +1,5 @@
 var express = require('express'), app = express();
-var redis = require("redis"), client = redis.createClient(6379, 'redis.forrent.com');
+var redis = require("redis"), client = redis.createClient();
 
 function isValid(req){
 	if(typeof req.query.eventid === 'string'
@@ -25,7 +25,7 @@ client.on("error", function (err) {
 app.get('/log-event', function(req, res){
 
 	if(!isValid(req)){
-		res.send(400, "Expected Params: [eventid, typecode, someid, sourcecode, pagename, url] or [siteid, code, time, length]");		
+		res.send(400);		
 		return;
 	}
 
