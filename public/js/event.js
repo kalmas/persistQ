@@ -59,8 +59,7 @@
 			    			+ "&someid=" + event.someid
 			    			+ "&typecode=" + event.typecode
 			    			+ "&pagename=" + event.pagename
-			    			+ "&source=" + event.source
-			    			// + "&timestamp=" + event.timestamp
+			    			+ "&sourcecode=" + event.sourcecode
 			    			+ "&jsguid=" + event.jsguid
 			    			+ "&rand=" + window.Math.random()
 			    			, true);
@@ -70,7 +69,6 @@
 			    			+ "&code=" + event.code
 			    			+ "&time=" + event.time
 			    			+ "&length=" + event.length
-			    			// + "&timestamp=" + event.timestamp
 			    			+ "&jsguid=" + event.jsguid
 			    			+ "&rand=" + window.Math.random()
 			    			, true);
@@ -83,14 +81,13 @@
 			/**
 			 * Global Common Log Event Functions
 			 */
-			window.common_log_event = function(eventid, someid, typecode, pagename, source){
+			window.common_log_event = function(eventid, someid, typecode, pagename, sourcecode){
 				var event = {};
 				event.eventid = eventid;
 				event.someid = someid;
 				event.typecode = typecode;
 				event.pagename = pagename;
-				event.source = source;
-				// event.timestamp = window.Math.round(new window.Date().getTime() / 1000); // Unix Epoch Time
+				event.sourcecode = sourcecode;
 				event.jsguid = guid();
 				// window.console.log("Queueing:" + window.JSON.stringify(event));
 				eventLogQueue.offer(event);	
@@ -102,7 +99,6 @@
 				event.code = code;
 				event.time = time;
 				event.length = length;
-				// event.timestamp = window.Math.round(new window.Date().getTime() / 1000); // Unix Epoch Time
 				event.jsguid = guid();
 				// window.console.log("Queueing:" + window.JSON.stringify(event));
 				eventLogQueue.offer(event);	
