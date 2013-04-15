@@ -19,12 +19,18 @@
 		    };
 		    
 		    /**
-		     * http://stackoverflow.com/a/2117523/1361980
+		     * Returns a RFC 4122 compliant UUID
 		     */
 		    var guid = function(){
-		    	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c){
-		    		var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-		    		return v.toString(16);
+		    	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(match){
+		    		if(match === 'x'){
+		    			// Replace x's with a random hex digit
+		    			return (window.Math.floor(window.Math.random() * 16)).toString(16);
+		    		} else {
+		    			// Replace y with one of 4 chars
+		    			var options = ['8', '9', 'A', 'B'];
+		    			return options[window.Math.floor(window.Math.random() * 4)];
+		    		}
 		    	});
 		    };
 			
