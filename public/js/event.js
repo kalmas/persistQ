@@ -1,12 +1,8 @@
 (function(window){
     window.yepnope([{
-    	// If IE, load setTimeout Polyfill
-    	test : document.all,
-    	yep : ["/public/js/polyfill-ie-settimeout.js"]
-    }, {
-    	// Load Queue
+    	load: ["ie!/public/js/polyfill-ie-setTimeout.js"], // IE setTimeout Polyfill
     	test : typeof Queue === "undefined",
-		yep: ["/public/js/queue.js"],
+		yep: ["/public/js/queue.js"], // Client-side Persistent Queue
 		complete : function(){
 			var eventLogQueue = new Queue("event", window);
 			
@@ -23,20 +19,26 @@
 		    };
 		    
 		    /**
-		     * http://stackoverflow.com/a/2117523/1361980
+		     * Returns a RFC 4122 compliant UUID
 		     */
 		    var guid = function(){
-		    	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c){
-		    		var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-		    		return v.toString(16);
+		    	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(match){
+		    		if(match === 'x'){
+		    			// Replace x's with a random hex digit
+		    			return (window.Math.floor(window.Math.random() * 16)).toString(16);
+		    		} else {
+		    			// Replace y with one of 4 chars
+		    			var options = ['8', '9', 'A', 'B'];
+		    			return options[window.Math.floor(window.Math.random() * 4)];
+		    		}
 		    	});
 		    };
 			
 		    var sendEvent = function(queue){
 		    	var xhr = new XMLHttpRequest();
 		    	xhr.onreadystatechange = function(){
-		    		if(xhr.readyState == 4){
-		    			if(xhr.status == 200){
+		    		if(xhr.readyState === 4){
+		    			if(xhr.status === 200){
 		    				// window.console.log("request succeeded, dequeue this event");
 		    				queue.poll();
 		    				sendAttempts = 0;
@@ -55,22 +57,22 @@
 		    	var event = queue.peek();
 		    	if(typeof event.time === "undefined"){
 		    		// log common event
-		    		xhr.open("GET", "/ajax/eventLogging.ajax.php?eventid=" + event.eventid
-			    			+ "&someid=" + event.someid
-			    			+ "&typecode=" + event.typecode
-			    			+ "&pagename=" + event.pagename
-			    			+ "&sourcecode=" + event.sourcecode
-			    			+ "&jsguid=" + event.jsguid
-			    			+ "&rand=" + window.Math.random()
+		    		xhr.open("GET", "/ajax/eventLogging.ajax.php?eventid=" + event.eventid +
+			    			"&someid=" + event.someid +
+			    			"&typecode=" + event.typecode +
+			    			"&pagename=" + event.pagename +
+			    			"&sourcecode=" + event.sourcecode +
+			    			"&jsguid=" + event.jsguid +
+			    			"&rand=" + window.Math.random()
 			    			, true);
 		    	} else {
 		    		// log timed event
-			    	xhr.open("GET", "/ajax/theaterLogging.ajax.php?siteid=" + event.siteid
-			    			+ "&code=" + event.code
-			    			+ "&time=" + event.time
-			    			+ "&length=" + event.length
-			    			+ "&jsguid=" + event.jsguid
-			    			+ "&rand=" + window.Math.random()
+			    	xhr.open("GET", "/ajax/theaterLogging.ajax.php?siteid=" + event.siteid +
+			    			"&code=" + event.code +
+			    			"&time=" + event.time +
+			    			"&length=" + event.length +
+			    			"&jsguid=" + event.jsguid +
+			    			"&rand=" + window.Math.random()
 			    			, true);
 		    	}
 		    	xhr.send();
