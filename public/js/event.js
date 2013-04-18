@@ -68,7 +68,7 @@
 		    	} else {
 		    		// log timed event
 			    	xhr.open("GET", "/ajax/theaterLogging.ajax.php?siteid=" + event.siteid +
-			    			"&code=" + event.code +
+			    			((event.code) ? ("&code=" + event.code) : "") + 
 			    			"&time=" + event.time +
 			    			"&length=" + event.length +
 			    			"&jsguid=" + event.jsguid +
